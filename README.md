@@ -31,7 +31,7 @@ Claude's extended thinking reads between the lines of the review before writing 
 
 ## Local setup
 
-**Prerequisites:** Node.js 18+, an [Anthropic API key](https://console.anthropic.com)
+**Prerequisites:** Node.js 20.9+, an [Anthropic API key](https://console.anthropic.com)
 
 ```bash
 git clone https://github.com/SirGreed808/review-responder.git
@@ -60,7 +60,7 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ## Deploy to Vercel
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FSirGreed808%2Freview-responder)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FSirGreed808%2Freview-responder&env=ANTHROPIC_API_KEY&envDescription=Your%20Anthropic%20API%20key&envLink=https%3A%2F%2Fconsole.anthropic.com)
 
 Set `ANTHROPIC_API_KEY` in your Vercel project's environment variables before deploying.
 

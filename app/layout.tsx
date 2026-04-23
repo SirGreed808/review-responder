@@ -14,9 +14,28 @@ const inter = Inter({
   weight: ["400", "500", "600"],
 });
 
+const SITE_URL = "https://review-responder-inky.vercel.app";
+const TITLE = "AI Review Responder";
+const DESCRIPTION =
+  "Paste a Google review, pick a tone, get a ready-to-copy response — powered by Claude.";
+
 export const metadata: Metadata = {
-  title: "AI Review Responder",
-  description: "Paste a Google review, pick a tone, get a ready-to-copy response — powered by Claude.",
+  metadataBase: new URL(SITE_URL),
+  title: TITLE,
+  description: DESCRIPTION,
+  robots: { index: true, follow: true },
+  openGraph: {
+    title: TITLE,
+    description: DESCRIPTION,
+    url: SITE_URL,
+    siteName: "Review Responder",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+  },
 };
 
 export default function RootLayout({

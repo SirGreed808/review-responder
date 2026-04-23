@@ -6,7 +6,7 @@
   --copper-light: #e8854a;
   --teal: #2a7a72;
   --body: #2d3748;
-  --muted: #64748b;
+  --muted: #52617a;
   --cream: #faecd0;
   --border: #e2e8f0;
   --font-heading: var(--font-poppins), system-ui, sans-serif;
@@ -439,6 +439,21 @@ body {
 .cta-link:hover {
   transform: translateY(-2px);
   box-shadow: 0 5px 15px rgba(194, 102, 45, 0.45);
+}
+
+/* ── Focus visibility ── */
+
+.tone-pill:focus-visible,
+.generate-btn:focus-visible,
+.copy-btn:focus-visible,
+.cta-link:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 3px;
+}
+
+.review-textarea:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 2px;
 }
 
 /* ── Reduced motion ── */

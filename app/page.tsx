@@ -60,12 +60,19 @@ export default function Home() {
         const msg =
           res.status === 429
             ? "Too many requests — please wait a minute and try again."
-            : "Something went wrong. Please try again.";
+            : res.status === 400
+              ? "That review can't be processed — check the length and try again."
+              : "Something went wrong. Please try again.";
         setResponse(msg);
         return;
       }
 
-      const reader = res.body!.getReader();
+      if (!res.body) {
+        setResponse("No response from server. Please try again.");
+        return;
+      }
+
+      const reader = res.body.getReader();
       const decoder = new TextDecoder();
       let buffer = "";
 
@@ -89,6 +96,12 @@ export default function Home() {
           if (event === "thinking_start") setShowThinking(true);
           if (event === "thinking_delta") setThinking((t) => t + JSON.parse(data));
           if (event === "response_delta") setResponse((r) => r + JSON.parse(data));
+          if (event === "error") {
+            const msg = data ? JSON.parse(data) : "Generation failed.";
+            setResponse(msg);
+            return;
+          }
+          if (event === "done") return;
         }
       }
     } catch (err: unknown) {
@@ -138,24 +151,32 @@ export default function Home() {
 
             {/* Review input */}
             <div className="mb-6">
-              <label className="field-label">What did they say?</label>
+              <label htmlFor="review" className="field-label">What did they say?</label>
               <textarea
+                id="review"
                 value={review}
                 onChange={(e) => setReview(e.target.value)}
                 rows={5}
+                maxLength={2000}
                 placeholder="The food was great but the wait time was way too long…"
                 className="review-textarea"
               />
-              <div className="char-count">{review.length} chars</div>
+              <div className="char-count">{review.length} / 2000 chars</div>
             </div>
 
             {/* Tone picker */}
             <div className="mb-8">
-              <label className="field-label">Tone</label>
-              <div className="flex flex-wrap gap-2 mb-2">
+              <span className="field-label" id="tone-label">Tone</span>
+              <div
+                role="radiogroup"
+                aria-labelledby="tone-label"
+                className="flex flex-wrap gap-2 mb-2"
+              >
                 {TONES.map((t) => (
                   <button
                     key={t}
+                    role="radio"
+                    aria-checked={tone === t}
                     onClick={() => setTone(t)}
                     className={`tone-pill ${tone === t ? "tone-pill-active" : "tone-pill-inactive"}`}
                   >
@@ -188,6 +209,7 @@ export default function Home() {
             <div className="result-card thinking-card mt-4">
               <button
                 onClick={() => setShowThinking((v) => !v)}
+                aria-expanded={showThinking}
                 className="flex items-center gap-2 text-sm mb-3 font-medium w-full cursor-pointer"
                 style={{ color: "var(--muted)" }}
               >
@@ -195,7 +217,7 @@ export default function Home() {
                 <span>{loading ? "Working it out…" : "Claude's reasoning"}</span>
                 <span className="text-xs ml-auto">{showThinking ? "▲" : "▼"}</span>
               </button>
-              <div className="thinking-body">
+              <div className="thinking-body" aria-live="polite">
                 {thinking || <span className="animate-pulse">Thinking…</span>}
               </div>
             </div>
@@ -213,7 +235,7 @@ export default function Home() {
                   {copied ? "Copied!" : "Copy response"}
                 </button>
               </div>
-              <div className="response-body">{response}</div>
+              <div className="response-body" aria-live="polite">{response}</div>
             </div>
           )}
 
