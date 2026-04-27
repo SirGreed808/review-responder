@@ -1,17 +1,17 @@
 import type { Metadata } from "next";
-import { Poppins, Inter } from "next/font/google";
+import { Orbitron, Rajdhani, Righteous } from "next/font/google";
 import "./globals.css";
 
-const poppins = Poppins({
-  variable: "--font-poppins",
+const orbitron = Orbitron({
+  variable: "--font-display",
   subsets: ["latin"],
-  weight: ["600", "700"],
+  weight: ["400", "500", "600", "700", "800", "900"],
 });
 
-const inter = Inter({
-  variable: "--font-inter",
+const rajdhani = Rajdhani({
+  variable: "--font-body",
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["300", "400", "500", "600", "700"],
 });
 
 const SITE_URL = "https://review-responder-inky.vercel.app";
@@ -38,13 +38,19 @@ export const metadata: Metadata = {
   },
 };
 
+const righteous = Righteous({
+  variable: "--font-fun",
+  subsets: ["latin"],
+  weight: ["400"],
+});
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${poppins.variable} ${inter.variable} h-full antialiased`}>
+    <html lang="en" className={`${orbitron.variable} ${rajdhani.variable} ${righteous.variable} h-full antialiased`}>
       <body className="min-h-full">{children}</body>
     </html>
   );
